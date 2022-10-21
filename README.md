@@ -4,7 +4,7 @@ This is an app for conversion between various units
 ## Table of Contents
 * [Introduction](#introduction)
 * [Technologies](#technologies)
-* [Setup](*setup)
+* [Setup](#setup)
 
 ## Introduction
 This project is built for learning purpose. The app will provide users to convert one unit to another based on the selection of entity(length, weight, temperature 
