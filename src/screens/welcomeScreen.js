@@ -37,7 +37,7 @@ const WelcomeScreen = props => {
           case 'Temperature':
             return <TemperatureConverter />;
           case 'Currency':
-            return <CurrencyConverter />;
+            return <CurrencyConverter isEnabled={isEnabled} />;
           default:
             return (
               <View>

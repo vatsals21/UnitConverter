@@ -6,11 +6,15 @@ import {
   View,
   Text,
   ActivityIndicator,
+  Button,
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {COLORS} from '../assets/colors';
 
 const CurrencyConverter = props => {
+  const {isEnabled} = props;
+
+  // * currencySymbol array will store all the available currencies
   const [currencySymbol, setCurrencySymbol] = useState([]);
   const [inputNum, setInputNum] = useState(0);
   const [outputNum, setOutputNum] = useState(0);
@@ -18,6 +22,11 @@ const CurrencyConverter = props => {
   const [outputCurr, setOutputCurr] = useState();
   const [isLoading, setLoading] = useState(true);
 
+  /**
+   * This is an async function which will get all the currencies through
+   * the api, the function will be called during the rendering of the
+   * currencyConverter component
+   */
   const getData = async () => {
     try {
       const response = await axios.get(
@@ -44,7 +53,11 @@ const CurrencyConverter = props => {
     }
   };
 
-  const convertCurrr = async newNum => {
+  /**
+   * convertCurr will convert the amount to desired currency
+   * using the api and the values passed
+   */
+  const convertCurr = async newNum => {
     if (isNaN(newNum) || newNum <= 0) {
       setOutputNum(0.0);
       return;
@@ -64,7 +77,6 @@ const CurrencyConverter = props => {
         },
       });
       var result = response.data.result;
-      console.log(result);
       result = +result;
       setOutputNum(result.toFixed(3));
     } catch (error) {
@@ -79,11 +91,11 @@ const CurrencyConverter = props => {
   }, []);
 
   useEffect(() => {
-    convertCurrr(inputNum);
+    convertCurr(inputNum);
   }, [inputCurr]);
 
   useEffect(() => {
-    convertCurrr(inputNum);
+    convertCurr(inputNum);
   }, [outputCurr]);
 
   const styles = StyleSheet.create({
@@ -104,23 +116,31 @@ const CurrencyConverter = props => {
       width: 250,
       color: COLORS.black,
     },
+    loadingText: {
+      color: isEnabled ? COLORS.white : COLORS.black,
+    },
+    button: {
+      marginTop: '-10%',
+    },
   });
 
+  /**
+   * Using terneary operator below to determine which View to render
+   */
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <ActivityIndicator size="large" color="#00ff00" />
+        <View>
+          <ActivityIndicator size="large" color={COLORS.green} />
+          <Text style={styles.loadingText}>Loading Data......</Text>
+        </View>
       ) : (
         <View>
           <View style={styles.container_two}>
             <TextInput
               style={styles.textInput}
-              // * onChangeText is not a good option here
-              // * as on every digit change, currency will try to change
-              // * thus increasing latency and redundancy for same operation
               onChangeText={newNum => {
                 setInputNum(newNum);
-                convertCurrr(newNum);
               }}
               value={inputNum}
               placeholder="0"
@@ -150,6 +170,19 @@ const CurrencyConverter = props => {
               }}
             />
           </View>
+          <Button
+            style={styles.button}
+            title="Convert"
+            onPress={() => {
+              /**
+               * The inputNum variable is an string object
+               * Converting it to Number first and then calling the
+               * convertCurr function
+               */
+              convertCurr(Number(inputNum.valueOf()));
+            }}
+            color={COLORS.green}
+          />
         </View>
       )}
     </View>

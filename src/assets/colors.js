@@ -10,4 +10,5 @@ export const COLORS = {
   lighBlue: '#abc4ff',
   lightyellow: '#fcf6bd',
   brightYellow: '#ffd60a',
+  green: '#00A878',
 };
