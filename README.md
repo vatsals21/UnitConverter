@@ -7,6 +7,7 @@ This is an app for conversion between various units
 - [Introduction](#introduction)
 - [Technologies](#technologies)
 - [Setup](#setup)
+- [Future](#future)
 
 ## Introduction
 
@@ -29,3 +30,7 @@ To run the project, follow the steps below-
 3. Pull the project in VS Code(or any other IDE).
 4. Run Android emulator.
 5. run command - npx react-native run-android
+
+## Future
+
+Currently, the user has to go through the whole list of available currencies in the dropdown. To resolve this, the idea is to develop a search feature in currency conversion for a better user-friendly UI.
